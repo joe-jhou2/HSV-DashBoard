@@ -1,0 +1,34 @@
+# Ignore Elastic Beanstalk configuration files
+.elasticbeanstalk/
+
+# Ignore entire data folder
+data/
+
+# Ignore srv folder
+srv/
+
+# Ignore Users folder
+Users/
+
+# Ignore docker files
+.dockerignore
+docker-compose.yml
+docker-compose.aws.yml
+Dockerfile
+
+# Ignore env files
+.env
+
+# R-specific ignores
+.Rhistory
+.RData
+.Rproj.user/
+.Rproj
+.Ruserdata
+
+# Temporary files and settings
+1 Build Docker.txt
+2 AWS Deploy.txt
+
+# Ignore pem files
+hsv_dashboard.pem

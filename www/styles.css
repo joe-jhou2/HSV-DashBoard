@@ -1,0 +1,194 @@
+/* Set the height of the sign-up panel to fit within one page */
+.signup-panel {
+  height: 80vh; /* Viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2%;
+}
+
+/* Adjust the height of the well panel */
+.well-panel {
+  max-height: 60vh; /* Adjust as needed */
+  overflow-y: auto; /* Add scroll if content overflows */
+  padding: 1%;
+}
+
+/* Adjust the footer to be at the bottom */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 1%;
+}
+
+/* whole page margin */
+.shiny-plot-output {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+/* Title */
+.center-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Container for the introduction text */
+.intro-container {
+  padding: 2%; 
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+  .signup-panel {
+    height: 70vh;
+  }
+  .well-panel {
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 992px) {
+  .signup-panel {
+    height: 60vh;
+  }
+  .well-panel {
+    max-height: 40vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .signup-panel {
+    height: 50vh;
+  }
+  .well-panel {
+    max-height: 30vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .signup-panel {
+    height: 40vh;
+  }
+  .well-panel {
+    max-height: 20vh;
+  }
+}
+
+/* Container for the main image */
+.WorkFlow-image {
+  text-align: center;  /* Center the image */
+  margin-top: 1px;    /* Margin to space out from the introduction text */
+}
+
+.WorkFlow-image img {
+  max-width: 100%;
+  height: 60vh;
+  width: auto;
+}
+
+/* Image container at top-right corner, virus logo*/
+.Virus-image {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.Virus-image img {
+  height: 100px;
+  width: auto;
+}
+
+/* Email box*/
+.signup-box {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  padding: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.signup-box .message {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.signup-box .button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.signup-box .button-container .btn {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.signup-box .btn {
+  width: auto;
+  padding: 10px;
+}
+
+.sign-out-container {
+  position: absolute;
+  top: 10px;
+  right: 10px; 
+  z-index: 1000;
+}
+
+.annotation-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.annotation-description {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Footer container */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto; /* Adjust height based on content */
+  padding: 10px; /* Optional padding for better spacing */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Container for logo and text */
+.FHCRC-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-start; /* Align items to the start of the container */
+}
+
+/* Logo styling */
+.FHCRC-image img {
+  width: 200px;
+  height: auto;
+}
+
+/* Text styling */
+.footer-text {
+  margin-top: 5px;
+}
+
+/* Ensure h4 elements have no extra margin */
+.footer-text h4 {
+  color: lightblue;
+  margin: 0;
+  padding: 2px 0;
+}

@@ -25,6 +25,7 @@ Dockerfile
 .Rproj.user/
 .Rproj
 .Ruserdata
+.DS_Store
 
 # Temporary files and settings
 1 Build Docker.txt
@@ -32,3 +33,4 @@ Dockerfile
 
 # Ignore pem files
 hsv_dashboard.pem
+.DS_Store

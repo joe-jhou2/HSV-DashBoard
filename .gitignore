@@ -3,12 +3,11 @@
 
 # Ignore entire data folder
 data/
+deprecated_ver1/
+Users/
 
 # Ignore srv folder
 srv/
-
-# Ignore Users folder
-Users/
 
 # Ignore docker files
 .dockerignore

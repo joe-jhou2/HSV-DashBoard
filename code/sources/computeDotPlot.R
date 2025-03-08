@@ -14,16 +14,17 @@
 #'              by gene and cell type, showing the variability and mean percentage of gene expression within each cell type across
 #'              different statuses.
 
-computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL){
-  # Extracte Cytokine/Gene expression data
-  GeneExtraction_df = feature_extraction(seurat_object = seurat_object, 
-                                         selectedCellType = "All", 
-                                         selectedFeature = selectedFeature,
-                                         selectedAnnotation = selectedAnnotation)
+computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL, feature_data = NULL){
+  start_time <- Sys.time()
+  
+  # Use the precomputed feature extraction data if provided
+  if(is.null(feature_data)){
+    feature_data <- feature_extraction_result()  # Get from centralized feature extraction
+  }
   
   # Filtering based on parameters
-  GeneExtraction_df_sel = tryCatch({
-    GeneExtraction_df %>%
+  feature_data_filter = tryCatch({
+    feature_data %>%
       filter(
         if ("All" %in% selectedCellType) TRUE else CellType %in% selectedCellType,
         if ("All" %in% selectedSubject) TRUE else Subject %in% selectedSubject
@@ -35,7 +36,7 @@ computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, sele
   }
   )
   
-  if (nrow(GeneExtraction_df_sel) == 0) {
+  if (nrow(feature_data_filter) == 0) {
     # Return a message or a blank plot
     return(ggplot() + 
              geom_blank() +
@@ -54,7 +55,7 @@ computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, sele
   
   suppressWarnings({
     # Calculate Cytokine+ Pert within CellType and Status
-    GenePert = calculate_feature_pert(feature_df = GeneExtraction_df_sel, 
+    GenePert = calculate_feature_pert(feature_df = feature_data_filter, 
                                       selectedFeature = selectedFeature, 
                                       selectedCellType = "All", 
                                       selectedStatus = "All")
@@ -71,7 +72,7 @@ computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, sele
       dplyr::mutate(Gene = factor(Gene, levels = selectedFeature))
     
     # Calculate Gene Intensity
-    Exp_Gene = GeneExtraction_df_sel %>%
+    Exp_Gene = feature_data_filter %>%
       dplyr::select(orig.ident, Subject, CellType, Status, selectedFeature) %>% # , 
       group_by(orig.ident, CellType) %>%
       # summary by subject + status (aka. each sample)
@@ -120,6 +121,11 @@ computeDotPlot = function(seurat_object, selectedCellType, selectedSubject, sele
       # scale_size_continuous(range = c(1, 10), limits = c(0, 100)) + 
       labs(size = "Percent\nExpressed", fill = "Average\nExpression") +
       guides(size = guide_legend(override.aes = list(shape = 21, colour = "black", fill = "gray")))
+    
+    # End timing
+    end_time <- Sys.time()
+    cat("DotPlot Computation time: ", end_time - start_time, "\n")
+    
     return (g)
   })
 }

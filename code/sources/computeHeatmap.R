@@ -44,19 +44,17 @@ assign_colors <- function(subjects) {
   return(Subject_colors)
 }
 
-computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL) {
+computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL, feature_data = NULL) {
+  start_time <- Sys.time()
   
-  # Ensure 'selectedCellType', 'selectedStatus', and 'selectedFeature' are NULL or character vectors
-  # if(!is.null(selectedCellType) && !is.character(selectedCellType)) stop("'selectedCellType' must be NULL or a character vector.")
-  # if(!is.null(selectedStatus) && !is.character(selectedStatus)) stop("'selectedStatus' must be NULL or a character vector.")
-  # if(!is.null(selectedFeature) && !is.character(selectedFeature)) stop("'selectedFeature' must be NULL or a character vector.")
-  # 
-  # Use feature_extraction function to get data; assume this function is defined elsewhere
-  df_Extraction = feature_extraction(seurat_object, selectedCellType = "All", selectedFeature, selectedAnnotation)
+  # Use the precomputed feature extraction data if provided
+  if(is.null(feature_data)){
+    feature_data <- feature_extraction_result()  # Get from centralized feature extraction
+  }
   
   # Filtering based on parameters
-  df_Extraction_sel = tryCatch({
-    df_Extraction %>%
+  feature_data_filter = tryCatch({
+    feature_data %>%
       filter(
         if ("All" %in% selectedCellType) TRUE else CellType %in% selectedCellType,
         if ("All" %in% selectedStatus) TRUE else Status %in% selectedStatus,
@@ -69,7 +67,7 @@ computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selec
   }
   )
   
-  if (nrow(df_Extraction_sel) == 0) {
+  if (nrow(feature_data_filter) == 0) {
     # Return a message or a blank plot
     return(ggplot() + 
              geom_blank() +
@@ -89,14 +87,14 @@ computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selec
   suppressWarnings({
     
     # Prepare matrix for heatmap
-    ht_data = as.matrix(t(df_Extraction_sel[, !(names(df_Extraction_sel) %in% c("orig.ident", "Subject", "CellType", "Status"))]))
+    ht_data = as.matrix(t(feature_data_filter[, !(names(feature_data_filter) %in% c("orig.ident", "Subject", "CellType", "Status"))]))
     
     # Prepare annotation for heatmap
-    ht_meta = df_Extraction_sel[, c("CellType", "Status", "Subject"), drop = FALSE]
+    ht_meta = feature_data_filter[, c("CellType", "Status", "Subject"), drop = FALSE]
     # ht_meta$CellType = factor(ht_meta$CellType, levels = levels(seurat_object))
     
     # re-order columns by celltype --> status
-    column_order = order(df_Extraction_sel$CellType, df_Extraction_sel$Status, df_Extraction_sel$Subject)
+    column_order = order(feature_data_filter$CellType, feature_data_filter$Status, feature_data_filter$Subject)
     
     # Create column annotation for CellType
     anno_celltype_status = HeatmapAnnotation(CellType = ht_meta$CellType,
@@ -107,7 +105,7 @@ computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selec
                                              simple_anno_size = unit(0.65, "cm"), 
                                              annotation_legend_param = list(title_gp = gpar(fontsize = 14), 
                                                                             labels_gp = gpar(fontsize = 14),
-                                                                            nrow = 5, by_row = TRUE),
+                                                                            nrow = 3, by_row = FALSE, direction = "horizontal"),
                                              col = list(CellType = CellType_color,
                                                         Status = c("Prior" = "#0F9D58", 
                                                                    "Lesion" = "#DB4437",  
@@ -137,8 +135,12 @@ computeHeatmap = function(seurat_object, selectedCellType, selectedStatus, selec
                                                title_gp = gpar(col = "red", fontsize = 14), 
                                                labels_gp = gpar(col = "black", fontsize = 14)), use_raster = TRUE)
     
-    return(
-      draw(htmp,merge_legend = TRUE, heatmap_legend_side = "bottom", annotation_legend_side = "bottom")
-    )
+    plot = draw(htmp,merge_legend = TRUE, heatmap_legend_side = "bottom", annotation_legend_side = "bottom")
+    
+    # End timing
+    end_time <- Sys.time()
+    cat("Heatmap Computation time: ", end_time - start_time, "\n")
+    
+    return(plot)
   })
 }

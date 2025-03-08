@@ -24,6 +24,7 @@
 #' @import scales percent
 #'
 computeStackBarPlot_Subject = function(seurat_object, selectedSubject, selectedAnnotation, CellType_color = NULL){
+  start_time <- Sys.time()
   
   # calculate first
   res_list = computeStat(seurat_object, selectedAnnotation)
@@ -65,6 +66,10 @@ computeStackBarPlot_Subject = function(seurat_object, selectedSubject, selectedA
           legend.text = element_text(size = 14)) + 
     guides(fill = guide_legend(ncol = 8, byrow = TRUE)) + 
     coord_flip()
+  
+  # End timing
+  end_time <- Sys.time()
+  cat("StackPlot Computation time: ", end_time - start_time, "\n")
   
   return(p)
 }

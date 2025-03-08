@@ -13,6 +13,8 @@
 #'
 
 computeBarPlot_CellType_Status = function(seurat_object, selectedSubject, selectedAnnotation){
+  start_time <- Sys.time()
+  
   # calculate and pull results
   res_list = computeStat(seurat_object, selectedAnnotation)
   
@@ -65,6 +67,10 @@ computeBarPlot_CellType_Status = function(seurat_object, selectedSubject, select
     facet_wrap(~ CellType, scales = "free", ncol = 6) + 
     theme_minimal() +
     theme_BarCellType2Status
+  
+  # End timing
+  end_time <- Sys.time()
+  cat("BarPlot_CellType Computation time: ", end_time - start_time, "\n")
   
   return(list(CountBar = p1,
               PertBar = p2))

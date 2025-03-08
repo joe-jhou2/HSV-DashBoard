@@ -1,44 +1,8 @@
-/* Set the height of the sign-up panel to fit within one page */
-.signup-panel {
-  height: 80vh; /* Viewport height */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2%;
-}
-
-/* Adjust the height of the well panel */
-.well-panel {
-  max-height: 60vh; /* Adjust as needed */
-  overflow-y: auto; /* Add scroll if content overflows */
-  padding: 1%;
-}
-
-/* Adjust the footer to be at the bottom */
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 1%;
-}
-
-/* whole page margin */
-.shiny-plot-output {
-  margin-top: 5px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-/* Title */
-.center-title {
-  text-align: center;
-  margin-bottom: 10px;
-}
 
 /* Container for the introduction text */
 .intro-container {
-  padding: 2%; 
+  padding: 2%;
+  margin-bottom: 60px; /* Ensure space above footer */
 }
 
 /* Media queries for responsiveness */
@@ -78,7 +42,7 @@
   }
 }
 
-/* Container for the main image */
+/* Container for the WorkFlow image */
 .WorkFlow-image {
   text-align: center;  /* Center the image */
   margin-top: 1px;    /* Margin to space out from the introduction text */
@@ -90,7 +54,7 @@
   width: auto;
 }
 
-/* Image container at top-right corner, virus logo*/
+/* Image container at top-right corner, virus logo */
 .Virus-image {
   position: absolute;
   top: 5px;
@@ -98,54 +62,30 @@
 }
 
 .Virus-image img {
-  height: 100px;
+  height: 80px;
   width: auto;
 }
 
-/* Email box*/
-.signup-box {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  width: 300px;
-  padding: 5px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-.signup-box .message {
-  font-size: 12px;
-  color: #666;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.signup-box .button-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.signup-box .button-container .btn {
-  flex: 1;
-  margin: 0 5px;
-}
-
-.signup-box .btn {
-  width: auto;
-  padding: 10px;
-}
-
-.sign-out-container {
+/* FHCRC image */
+.FHCRC-image {
   position: absolute;
-  top: 10px;
-  right: 10px; 
-  z-index: 1000;
+  top: 5px;
+  left: 5px;
 }
 
+.FHCRC-image img {
+  height: 80px;
+  width: auto;
+}
+
+/* Make sure the rest of the content isn't affecting the position of the image */
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Annotation container */
 .annotation-container {
   display: flex;
   flex-direction: column;
@@ -157,38 +97,16 @@
   color: #666;
 }
 
-/* Footer container */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: auto; /* Adjust height based on content */
-  padding: 10px; /* Optional padding for better spacing */
-  box-sizing: border-box; /* Include padding in width calculation */
+/* Style for actionButton with hover effect */
+#Intro-goToMain {
+  cursor: pointer;
+  z-index: 10000; /* Ensure it's on top of other elements */
+  margin: 10px auto;
+  padding: 12px 24px;
 }
 
-/* Container for logo and text */
-.FHCRC-container {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: flex-start; /* Align items to the start of the container */
-}
-
-/* Logo styling */
-.FHCRC-image img {
-  width: 200px;
-  height: auto;
-}
-
-/* Text styling */
-.footer-text {
-  margin-top: 5px;
-}
-
-/* Ensure h4 elements have no extra margin */
-.footer-text h4 {
-  color: lightblue;
-  margin: 0;
-  padding: 2px 0;
+#Intro-goToMain:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
 }

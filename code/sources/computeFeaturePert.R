@@ -13,15 +13,16 @@
 #'              by gene and cell type, showing the variability and mean percentage of gene expression within each cell type across
 #'              different statuses.
 
-computeFeaturePert = function(seurat_object, selectedCellType, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL){
+computeFeaturePert = function(seurat_object, selectedCellType, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL, feature_data = NULL){
+  start_time <- Sys.time()
   
-  Idents(seurat_object) = selectedAnnotation
-  
-  # Extract features
-  exp_meta_df = feature_extraction(seurat_object, selectedCellType = "All", selectedFeature, selectedAnnotation)
+  # Use the precomputed feature extraction data if provided
+  if(is.null(feature_data)){
+    feature_data <- feature_extraction_result()  # Get from centralized feature extraction
+  }
   
   # Calculate gene% in cell type and subject
-  exp_pert_df = calculate_feature_pert(feature_df = exp_meta_df %>% filter((any(selectedSubject == "All") | Subject %in% selectedSubject)), 
+  exp_pert_df = calculate_feature_pert(feature_df = feature_data %>% filter((any(selectedSubject == "All") | Subject %in% selectedSubject)), 
                                        selectedFeature = selectedFeature, 
                                        selectedCellType = selectedCellType, 
                                        selectedStatus = c("Prior", "Lesion", "Post"))
@@ -85,6 +86,11 @@ computeFeaturePert = function(seurat_object, selectedCellType, selectedSubject, 
             axis.text.y = element_text(size = 14, color = 'black'),
             legend.position = "none") +
       labs(y = 'Cyto % in CellType and Subject')
+    
+    # End timing
+    end_time <- Sys.time()
+    cat("FeaturePert Computation time: ", end_time - start_time, "\n")
+    
     return(g)
   })
 }

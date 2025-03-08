@@ -20,16 +20,17 @@
 #' @import ggplot2
 #' @importFrom reshape2 melt
 #' 
-computeVln = function(seurat_object, selectedCellType, selectedStatus, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL){
-  
-  Idents(seurat_object) = selectedAnnotation
-  
-  # Extract features
-  df_Extraction = feature_extraction(seurat_object, selectedCellType = "All", selectedFeature, selectedAnnotation)
+computeVln = function(seurat_object, selectedCellType, selectedStatus, selectedSubject, selectedFeature, selectedAnnotation, CellType_color = NULL, feature_data = NULL){
+  start_time <- Sys.time()
+
+  # Use the precomputed feature extraction data if provided
+  if(is.null(feature_data)){
+    feature_data <- feature_extraction_result()  # Get from centralized feature extraction
+  }
   
   # Filtering based on parameters
-  df_Extraction_sel = tryCatch({
-    df_Extraction %>%
+  feature_data_filter = tryCatch({
+    feature_data %>%
       filter(
         if ("All" %in% selectedCellType) TRUE else CellType %in% selectedCellType,
         if ("All" %in% selectedStatus) TRUE else Status %in% selectedStatus,
@@ -42,7 +43,7 @@ computeVln = function(seurat_object, selectedCellType, selectedStatus, selectedS
   }
   )
   
-  if (nrow(df_Extraction_sel) == 0) {
+  if (nrow(feature_data_filter) == 0) {
     # Return a message or a blank plot
     return(ggplot() + 
              geom_blank() +
@@ -61,7 +62,7 @@ computeVln = function(seurat_object, selectedCellType, selectedStatus, selectedS
   
   suppressWarnings({
     # reshape data for Vln
-    exp_meta_df_reshape = reshape2::melt(df_Extraction_sel %>% select(!c("orig.ident", "Subject")), 
+    exp_meta_df_reshape = reshape2::melt(feature_data_filter %>% select(!c("orig.ident", "Subject")), 
                                          id.vars=c("CellType", "Status"), 
                                          variable.name = "Gene", value.name = "Exp")
     exp_meta_df_reshape$Exp = as.numeric(exp_meta_df_reshape$Exp)
@@ -99,6 +100,11 @@ computeVln = function(seurat_object, selectedCellType, selectedStatus, selectedS
         legend.position = "none"
       ) +
       labs(y = 'Log Normalized Expression')
+    
+    # End timing
+    end_time <- Sys.time()
+    cat("VlnPlot Computation time: ", end_time - start_time, "\n")
+    
     return(g) 
   })
 }

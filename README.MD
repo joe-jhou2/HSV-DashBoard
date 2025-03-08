@@ -69,15 +69,18 @@ For **Visium** data:
 ### <span style="font-size: 20px;">Interactive Exploration on Cell Type (Cluster Discovery Tab)</span>
 
 <div style="font-size: 16px;">
+
 - **Cell Type and Status Identification:** Users can view all available cell types and subjects, with the flexibility to select specific ones for detailed exploration.
 - **Dynamic UMAP Visualization:** Initial displays show holistic UMAP results, which can be refined by time point. Selecting different subjects and cell types dynamically updates the UMAP to show specific clusters.
 - **Cell Type Statistics:** Displays percentages and counts of cell types for selected or all subjects.
 - **Cell Type by Subject:** Visualizes the percentage of each cell type within a given sample using stacked bar plots to understand the heterogeneity of cell type acroos samples
+
 </div>
 
 ### <span style="font-size: 20px;">Interactive Exploration on Gene Expression (Gene Discovery Tab)</span>
 
 <div style="font-size: 16px;">
+
 - **Feature Exploration:** Allows for the selection of cell types, subjects, and specific genes of interest.
 - **At Single Cell Level:** 
 - **Feature Gene Highlight:** The expression of selected gene projected to UMAP overlay with cell type annotation, vividly display gene expression pattern across cell types. 
@@ -86,11 +89,13 @@ For **Visium** data:
 - **Violin Plots:** The selected gene expression was summarized into cell type level and shows average expression levels across cell types and statuses, aiding in understanding temporal dynamics.
 - **Feature Percentage Plots:** Summarizes gene expression at the sample/subject level, indicating the proportion of cells expressing a specific gene within a cell type.
 - **Dot Plots:** Dot size indicates the percentage of cells expressing each gene, while color intensity represents gene expression levels. 
+
 </div>
 
 ## <span style="font-size: 26px;text-decoration: underline;">Tech Note</span>
 
 <div style="font-size: 16px;">
+
 - **HDF5 Array File System**: Utilized to prevent RAM overload by saving massive data in HDF5 files and processing them directly from disk. 
 This approach enhances memory efficiency when handling large datasets.
 - **Docker Image**: The application is containerized using Docker to ensure consistency across different platforms. 
@@ -101,16 +106,22 @@ or this:
 docker run -d -p 7777:3838 jhoufred/hsv-dashboard-image:2.0
 - **AWS EC2 Backend**: The application is deployed on AWS EC2, 
 providing a scalable and robust backend infrastructure for performance and reliability.
+
 </div>
 
 ## <span style="font-size: 26px;text-decoration: underline;">Version2 Update</span>
 
 <div style="font-size: 16px;">
+
 - **NEW AWS Architecture**: Elastic Container Registry (ECR), 
 Elastic Container Service (ECS), 
 Application Load Balancer (ALB), Auto Scaling, and Route 53
+
 </div>
+
+
 ## <span style="font-size: 26px;text-decoration: underline;">Gallery</span>
+
 <p style="font-size: 16px;">
 Here are some visual showcases of the application features:
 </p>

@@ -2,6 +2,10 @@
 
 **By: Joe Hou**
 
+** Update Log: **
+This resporitory has been deprecated. 
+Please visit new repository at: [https://github.com/joe-jhou2/HSV434-HSV_dashboard_py]
+
 ![Workflow](www/images/Work_Flow_ver2.png)
 
 ## Overview
